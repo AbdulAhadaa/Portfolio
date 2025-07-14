@@ -1,0 +1,652 @@
+
+import React, { useState, useEffect } from 'react';
+import {
+  FaBars,
+  FaTimes,
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaExternalLinkAlt,
+  FaDownload,
+} from 'react-icons/fa';
+import { HiArrowNarrowRight } from 'react-icons/hi';
+
+const Portfolio = () => {
+  const [nav, setNav] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [isVisible, setIsVisible] = useState({
+  about: false,
+  skills: false,
+  experience: false,
+  projects: false,
+  contact: false
+});
+
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setIsVisible(prev => ({
+            ...prev,
+            [entry.target.id]: true
+          }));
+        }
+      });
+    },
+    { 
+      threshold: 0.1,
+      rootMargin: '50px'
+    }
+  );
+
+  const sections = document.querySelectorAll('section[id]');
+  sections.forEach(section => observer.observe(section));
+
+  return () => observer.disconnect();
+}, []);
+
+  const scrollToSection = (sectionId) => {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(sectionId);
+      setNav(false);
+    }
+  };
+
+  const skills = [
+    { name: 'Manual Testing', category: 'Testing', level: 90 },
+    { name: 'API Testing', category: 'Testing', level: 85 },
+    { name: 'Database Testing', category: 'Testing', level: 80 },
+    { name: 'Selenium', category: 'Automation', level: 75 },
+    { name: 'JIRA', category: 'Tools', level: 95 },
+    { name: 'Postman', category: 'Tools', level: 90 },
+    { name: 'Python', category: 'Programming', level: 70 },
+    { name: 'SQL/MySQL', category: 'Database', level: 85 },
+  ];
+
+  const projects = [
+    {
+      id: 1,
+      name: 'C-Holder',
+      desc: 'Web and mobile application for card activity management',
+      details:
+        'Enables customers to view and manage their card activities, including transaction history, balance, debit, and credit amounts.',
+      technologies: ['Manual Testing', 'API Testing', 'Mobile Testing', 'Database Testing'],
+      type: 'Financial Application',
+    },
+    {
+      id: 2,
+      name: 'C-Manager/Admin',
+      desc: 'Internal web application for card management',
+      details:
+        'Designed for generating client cards and configuring rules for various card types including credit, debit, and prepaid cards.',
+      technologies: ['Web Testing', 'Functional Testing', 'UI Testing', 'Integration Testing'],
+      type: 'Admin Dashboard',
+    },
+    {
+      id: 3,
+      name: 'C-Agent',
+      desc: 'Customer support application',
+      details:
+        'Internal web application for Customer Support Representatives to verify, troubleshoot, and activate cards.',
+      technologies: ['Manual Testing', 'UAT', 'Regression Testing', 'IVR Testing'],
+      type: 'Support System',
+    },
+    {
+      id: 4,
+      name: 'Ecom FBA',
+      desc: 'Amazon fulfillment system',
+      details:
+        'Amazon system for storing, picking, packing, shipping, and delivering products to customers.',
+      technologies: ['E-commerce Testing', 'Integration Testing', 'Performance Testing'],
+      type: 'E-commerce Platform',
+    },
+    {
+      id: 5,
+      name: 'QikFinds',
+      desc: 'Product search extension',
+      details:
+        'Browser extension providing intelligence on sales and promotions from hundreds of online retailers.',
+      technologies: ['Browser Testing', 'API Testing', 'Cross-platform Testing'],
+      type: 'Browser Extension',
+    },
+    {
+      id: 6,
+      name: 'European Outdoor',
+      desc: 'Employee management system',
+      details:
+        'Integrated system developed to facilitate user management for employees in outdoor industry.',
+      technologies: ['System Testing', 'User Management Testing', 'Integration Testing'],
+      type: 'Management System',
+    },
+  ];
+
+  const experience = [
+    {
+      title: 'Quality Engineer',
+      company: 'I2C INC',
+      period: 'Feb 2024 - Present',
+      achievements: [
+        'Executed comprehensive test cases aligned with project requirements',
+        'Conducted functional, integration, smoke, sanity, UI, regression, UAT and database testing',
+        'Specialized in implementing client-specific solutions for credit, debit, and prepaid clients',
+        'Performed IVR verification and testing',
+        'Proficient in Linux environment including log analysis',
+      ],
+    },
+    {
+      title: 'Associate SQA Engineer',
+      company: 'QBATCH',
+      period: 'July 2022 - Jan 2024',
+      achievements: [
+        'Performed smoke, functional, and regression testing for web and mobile applications',
+        'Designed and executed test cases using JIRA for issue tracking',
+        'Conducted UI/UX testing across various devices and platforms',
+        'Collaborated with development teams to resolve software defects efficiently',
+      ],
+    },
+    {
+      title: 'SQA Intern',
+      company: 'DEVSINC',
+      period: 'March 2022 - May 2022',
+      achievements: [
+        'Performed smoke, functional, and regression testing',
+        'Conducted API Testing using Postman',
+        'Performed Load and Stress Testing',
+        'Gained hands-on experience in Manual Testing',
+      ],
+    },
+  ];
+
+const AnimatedSection = ({ children, id, className = "" }) => (
+  <section
+    id={id}
+    className={`transform transition-all duration-1000 ${
+      isVisible[id] ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+    } ${className}`}
+  >
+    {children}
+  </section>
+);
+
+  const AnimatedCard = ({ children, delay = 0 }) => (
+    <div
+      className="transform transition-all duration-700 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-400/20"
+      style={{
+        animationDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+
+  return (
+    <div className="bg-gray-900 text-white min-h-screen font-sans">
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        * {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .font-mono {
+          font-family: 'JetBrains Mono', Monaco, Consolas, 'Courier New', monospace;
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-pulse-slow {
+          animation: pulse 3s ease-in-out infinite;
+        }
+        .animate-gradient {
+          background-size: 400% 400%;
+          animation: gradientMove 8s ease infinite;
+        }
+        .animate-text-shimmer {
+          background: linear-gradient(
+            90deg,
+            #64748b 0%,
+            #06b6d4 50%,
+            #64748b 100%
+          );
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer 3s ease-in-out infinite;
+        }
+        .animate-border-spin {
+          animation: border-spin 3s linear infinite;
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        
+        @keyframes border-spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        .glass-effect {
+          background: rgba(17, 24, 39, 0.8);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glow-effect {
+          box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+        
+        .skill-bar {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .skill-bar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          animation: skill-shine 2s ease-in-out infinite;
+        }
+        
+        @keyframes skill-shine {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        
+        .typing-animation {
+          overflow: hidden;
+          border-right: 2px solid #06b6d4;
+          white-space: nowrap;
+          animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+          from, to { border-color: transparent; }
+          50% { border-color: #06b6d4; }
+        }
+      `}</style>
+
+      {/* ---------------- Enhanced Navbar ---------------- */}
+      <nav className="fixed w-full h-20 glass-effect z-50 transition-all duration-300">
+        <div className="flex justify-between items-center w-full h-full px-4 max-w-7xl mx-auto">
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 animate-text-shimmer">
+            Umer Owais
+          </div>
+
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex space-x-8">
+            {['home', 'about', 'skills', 'experience', 'projects', 'contact'].map((item) => (
+              <li key={item}>
+                <button
+                  onClick={() => scrollToSection(item)}
+                  className={`capitalize relative group transition-all duration-300 font-medium ${
+                    activeSection === item ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
+                  }`}
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden z-10 cursor-pointer transition-transform duration-300 hover:scale-110" onClick={() => setNav(!nav)}>
+            {!nav ? <FaBars size={24} className="text-cyan-400" /> : <FaTimes size={24} className="text-cyan-400" />}
+          </div>
+        </div>
+
+        {/* Enhanced Mobile Menu */}
+        <ul
+          className={`${
+            !nav ? 'hidden' : 'absolute'
+          } top-0 left-0 w-full h-screen glass-effect flex flex-col justify-center items-center space-y-8 md:hidden transition-all duration-500`}
+        >
+          {['home', 'about', 'skills', 'experience', 'projects', 'contact'].map((item, index) => (
+            <li key={item} className="transform transition-all duration-300" style={{ transitionDelay: `${index * 100}ms` }}>
+              <button
+                onClick={() => scrollToSection(item)}
+                className="text-4xl capitalize hover:text-cyan-400 transition-all duration-300 font-light tracking-wide hover:scale-110"
+              >
+                {item}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* ---------------- Enhanced Hero ---------------- */}
+      <section
+        id="home"
+        className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 animate-gradient relative overflow-hidden"
+      >
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl animate-pulse-slow"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-8 text-center relative z-10">
+          <p className="text-cyan-400 text-xl mb-4 animate-float font-mono">Hi, my name is</p>
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-4 animate-text-shimmer bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+            Muhammad Umer Owais
+          </h1>
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-400 mb-6 typing-animation">
+            SQA Engineer
+          </h2>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-light animate-float" style={{ animationDelay: '1s' }}>
+            Dedicated and detail-oriented SQA Manual Engineer with 2.5 years of hands-on experience in
+            delivering high-quality software solutions. Skilled in comprehensive manual testing processes
+            to ensure software reliability and user satisfaction.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => scrollToSection('projects')}
+              className="group relative bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-8 py-3 rounded-xl transition-all duration-300 flex items-center justify-center font-semibold glow-effect hover:shadow-2xl hover:shadow-cyan-400/50 transform hover:scale-105"
+            >
+              <span className="relative z-10">View My Work</span>
+              <HiArrowNarrowRight className="ml-2 group-hover:translate-x-2 transition-transform duration-300" />
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="group relative border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-gray-900 px-8 py-3 rounded-xl transition-all duration-300 flex items-center justify-center font-semibold hover:shadow-2xl hover:shadow-cyan-400/50 transform hover:scale-105"
+            >
+              <span className="relative z-10">Get In Touch</span>
+              <FaEnvelope className="ml-2 text-sm" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+<AnimatedSection id="about" className="w-full py-20 bg-gray-800 relative">
+  <div className="max-w-6xl mx-auto px-4">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-white mb-4">
+        About <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Me</span>
+      </h2>
+      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-12 items-center">
+      <AnimatedCard delay={200}>
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-white mb-6 font-mono">Quality Assurance Professional</h3>
+          <p className="text-gray-300 mb-6 leading-relaxed font-light">
+            I am passionate about ensuring software quality and reliability. With expertise in manual
+            testing, API testing, and database testing, I specialize in delivering comprehensive QA
+            solutions for clients ranging from small businesses to large enterprise corporations.
+          </p>
+          <p className="text-gray-300 mb-6 leading-relaxed font-light">
+            My experience spans across various domains including financial applications, e-commerce
+            platforms, and customer support systems. I am committed to continuous learning and staying
+            updated with industry trends to improve QA processes.
+          </p>
+          <div className="grid grid-cols-2 gap-4 text-center">
+            <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+              <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-mono">2.5+</h4>
+              <p className="text-gray-300 font-light">Years Experience</p>
+            </div>
+            <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+              <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-mono">15+</h4>
+              <p className="text-gray-300 font-light">Projects Completed</p>
+            </div>
+          </div>
+        </div>
+      </AnimatedCard>
+
+      <AnimatedCard delay={400}>
+        <div className="space-y-6">
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+            <h4 className="text-xl font-bold text-cyan-400 mb-4 font-mono">Education</h4>
+            <p className="text-white font-semibold">BS Computer Science</p>
+            <p className="text-gray-300 font-light">Khawaja Fareed University of Engineering and IT</p>
+            <p className="text-gray-400 font-light">January 2017 - August 2021</p>
+          </div>
+
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+            <h4 className="text-xl font-bold text-cyan-400 mb-4 font-mono">Location</h4>
+            <div className="flex items-center text-gray-300 font-light">
+              <FaMapMarkerAlt className="mr-2 text-cyan-400" />
+              <span>Model Town, Lahore, Pakistan</span>
+            </div>
+          </div>
+
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+            <h4 className="text-xl font-bold text-cyan-400 mb-4 font-mono">Availability</h4>
+            <p className="text-gray-300 font-light">Open to relocation opportunities worldwide</p>
+          </div>
+        </div>
+      </AnimatedCard>
+    </div>
+  </div>
+</AnimatedSection>
+
+<AnimatedSection id="skills" className="w-full py-20 bg-gray-900 relative">
+  <div className="max-w-6xl mx-auto px-4">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-white mb-4">
+        Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Skills</span>
+      </h2>
+      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-8">
+      {skills.map((skill, index) => (
+        <AnimatedCard key={skill.name} delay={index * 100}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-white font-semibold">{skill.name}</h3>
+              <span className="text-cyan-400 text-sm font-mono bg-cyan-400/10 px-2 py-1 rounded">{skill.category}</span>
+            </div>
+            <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden skill-bar">
+              <div
+                className="bg-gradient-to-r from-cyan-400 to-blue-500 h-3 rounded-full transition-all duration-2000 ease-out"
+                style={{ 
+                  width: isVisible.skills ? `${skill.level}%` : '0%',
+                  transitionDelay: `${index * 100}ms`
+                }}
+              />
+            </div>
+            <div className="text-right mt-1">
+              <span className="text-gray-400 text-sm font-mono">{skill.level}%</span>
+            </div>
+          </div>
+        </AnimatedCard>
+      ))}
+    </div>
+  </div>
+</AnimatedSection>
+
+<AnimatedSection id="experience" className="w-full py-20 bg-gray-800 relative">
+  <div className="max-w-6xl mx-auto px-4">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-white mb-4">
+        Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Experience</span>
+      </h2>
+      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+    </div>
+
+    <div className="space-y-8">
+      {experience.map((exp, index) => (
+        <AnimatedCard key={exp.title} delay={index * 200}>
+          <div className="glass-effect p-8 rounded-xl border-l-4 border-cyan-400 hover:glow-effect transition-all duration-300 transform hover:scale-105">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+              <div>
+                <h3 className="text-2xl font-bold text-white font-mono">{exp.title}</h3>
+                <p className="text-cyan-400 text-lg font-semibold">{exp.company}</p>
+              </div>
+              <span className="text-gray-400 font-medium font-mono bg-gray-700/50 px-3 py-1 rounded-full mt-2 md:mt-0">{exp.period}</span>
+            </div>
+            <div className="space-y-3">
+              {exp.achievements.map((ach, achIndex) => (
+                <div key={achIndex} className="text-gray-300 flex items-start font-light hover:text-white transition-colors duration-200">
+                  <span className="text-cyan-400 mr-3 mt-1 text-sm">▶</span>
+                  <span>{ach}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </AnimatedCard>
+      ))}
+    </div>
+  </div>
+</AnimatedSection>
+
+<AnimatedSection id="projects" className="w-full py-20 bg-gray-900 relative">
+  <div className="max-w-6xl mx-auto px-4">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-white mb-4">
+        Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Projects</span>
+      </h2>
+      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+    </div>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project, index) => (
+        <AnimatedCard key={project.id} delay={index * 150}>
+          <div className="glass-effect rounded-xl overflow-hidden hover:glow-effect transition-all duration-300 transform hover:scale-105 group">
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-xl font-bold text-white font-mono group-hover:text-cyan-400 transition-colors duration-300">{project.name}</h3>
+                <span className="text-xs bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-3 py-1 rounded-full font-mono">
+                  {project.type}
+                </span>
+              </div>
+              <p className="text-gray-300 mb-4 font-light">{project.desc}</p>
+              <p className="text-gray-400 text-sm mb-4 font-light">{project.details}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.technologies.map((tech, techIndex) => (
+                  <span 
+                    key={tech} 
+                    className="text-xs bg-gray-700/50 text-cyan-400 px-2 py-1 rounded-full font-mono hover:bg-cyan-400/10 transition-colors duration-200"
+                    style={{ animationDelay: `${techIndex * 100}ms` }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            </div>
+          </div>
+        </AnimatedCard>
+      ))}
+    </div>
+  </div>
+</AnimatedSection>
+      {/* ---------------- Contact ---------------- */}
+      <section id="contact" className="w-full py-20 bg-gray-800">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Get In <span className="text-cyan-400">Touch</span>
+            </h2>
+            <div className="w-24 h-1 bg-cyan-400 mx-auto" />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-6">Let's Connect</h3>
+              <p className="text-gray-300 mb-8">
+                I'm always interested in new opportunities and collaborations. Feel free to reach out if you'd like
+                to discuss QA projects or opportunities.
+              </p>
+
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <FaEnvelope className="text-cyan-400 mr-4" />
+                  <span className="text-gray-300">umersoft07@gmail.com</span>
+                </div>
+                <div className="flex items-center">
+                  <FaPhone className="text-cyan-400 mr-4" />
+                  <span className="text-gray-300">+92 333 274 1803</span>
+                </div>
+                <div className="flex items-center">
+                  <FaMapMarkerAlt className="text-cyan-400 mr-4" />
+                  <span className="text-gray-300">Model Town, Lahore, Pakistan</span>
+                </div>
+              </div>
+
+              <div className="flex space-x-4 mt-8">
+                <a
+                  href="https://www.linkedin.com/in/umer-owais"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-colors duration-300"
+                >
+                  <FaLinkedin size={20} />
+                </a>
+                <a
+                  href="mailto:umersoft07@gmail.com"
+                  className="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-lg transition-colors duration-300"
+                >
+                  <FaEnvelope size={20} />
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-gray-900 p-8 rounded-lg">
+              <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="w-full bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-400 focus:outline-none"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  className="w-full bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-400 focus:outline-none"
+                />
+                <textarea
+                  rows="6"
+                  placeholder="Your Message"
+                  className="w-full bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-400 focus:outline-none resize-none"
+                />
+                <button
+                  onClick={() => (window.location.href = 'mailto:umersoft07@gmail.com')}
+                  className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg transition-colors duration-300"
+                >
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- Footer ---------------- */}
+      <footer className="bg-gray-900 py-8 border-t border-gray-800">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <p className="text-gray-400">© 2024 Muhammad Umer Owais. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Portfolio;
