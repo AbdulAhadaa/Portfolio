@@ -17,36 +17,37 @@ const Portfolio = () => {
   const [nav, setNav] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isVisible, setIsVisible] = useState({
-  about: false,
-  skills: false,
-  experience: false,
-  projects: false,
-  contact: false
-});
+    about: false,
+    skills: false,
+    experience: false,
+    projects: false,
+    contact: false
+  });
 
-useEffect(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setIsVisible(prev => ({
-            ...prev,
-            [entry.target.id]: true
-          }));
-        }
-      });
-    },
-    { 
-      threshold: 0.1,
-      rootMargin: '50px'
-    }
-  );
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(prev => ({
+              ...prev,
+              [entry.target.id]: true
+            }));
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
 
-  const sections = document.querySelectorAll('section[id]');
-  sections.forEach(section => observer.observe(section));
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach(section => observer.observe(section));
 
-  return () => observer.disconnect();
-}, []);
+    return () => observer.disconnect();
+  }, []);
 
   const scrollToSection = (sectionId) => {
     const el = document.getElementById(sectionId);
@@ -162,16 +163,16 @@ useEffect(() => {
     },
   ];
 
-const AnimatedSection = ({ children, id, className = "" }) => (
-  <section
-    id={id}
-    className={`transform transition-all duration-1000 ${
-      isVisible[id] ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-    } ${className}`}
-  >
-    {children}
-  </section>
-);
+  const AnimatedSection = ({ children, id, className = "" }) => (
+    <section
+      id={id}
+      className={`transform transition-all duration-1000 ease-out ${
+        isVisible[id] ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+      } ${className}`}
+    >
+      {children}
+    </section>
+  );
 
   const AnimatedCard = ({ children, delay = 0 }) => (
     <div
@@ -185,25 +186,23 @@ const AnimatedSection = ({ children, id, className = "" }) => (
   );
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen font-sans">
+    <div className="bg-gray-900 text-white min-h-screen">
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-        * {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        .font-mono {
-          font-family: 'JetBrains Mono', Monaco, Consolas, 'Courier New', monospace;
-        }
+        
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
+        
         .animate-pulse-slow {
           animation: pulse 3s ease-in-out infinite;
         }
+        
         .animate-gradient {
           background-size: 400% 400%;
           animation: gradientMove 8s ease infinite;
         }
+        
         .animate-text-shimmer {
           background: linear-gradient(
             90deg,
@@ -212,12 +211,10 @@ const AnimatedSection = ({ children, id, className = "" }) => (
             #64748b 100%
           );
           background-size: 200% 100%;
+          background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: shimmer 3s ease-in-out infinite;
-        }
-        .animate-border-spin {
-          animation: border-spin 3s linear infinite;
         }
         
         @keyframes float {
@@ -234,11 +231,6 @@ const AnimatedSection = ({ children, id, className = "" }) => (
         @keyframes shimmer {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
-        }
-        
-        @keyframes border-spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
         }
         
         .glass-effect {
@@ -290,7 +282,7 @@ const AnimatedSection = ({ children, id, className = "" }) => (
         }
       `}</style>
 
-      {/* ---------------- Enhanced Navbar ---------------- */}
+      {/* Navbar */}
       <nav className="fixed w-full h-20 glass-effect z-50 transition-all duration-300">
         <div className="flex justify-between items-center w-full h-full px-4 max-w-7xl mx-auto">
           <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 animate-text-shimmer">
@@ -320,7 +312,7 @@ const AnimatedSection = ({ children, id, className = "" }) => (
           </div>
         </div>
 
-        {/* Enhanced Mobile Menu */}
+        {/* Mobile Menu */}
         <ul
           className={`${
             !nav ? 'hidden' : 'absolute'
@@ -339,12 +331,11 @@ const AnimatedSection = ({ children, id, className = "" }) => (
         </ul>
       </nav>
 
-      {/* ---------------- Enhanced Hero ---------------- */}
+      {/* Hero Section */}
       <section
         id="home"
         className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 animate-gradient relative overflow-hidden"
       >
-        {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-10 left-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
@@ -352,7 +343,7 @@ const AnimatedSection = ({ children, id, className = "" }) => (
         </div>
 
         <div className="max-w-4xl mx-auto px-8 text-center relative z-10">
-          <p className="text-cyan-400 text-xl mb-4 animate-float font-mono">Hi, my name is</p>
+          <p className="text-cyan-400 text-xl mb-4 animate-float">Hi, my name is</p>
           <h1 className="text-5xl md:text-7xl font-black text-white mb-4 animate-text-shimmer bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
             Muhammad Umer Owais
           </h1>
@@ -383,181 +374,184 @@ const AnimatedSection = ({ children, id, className = "" }) => (
         </div>
       </section>
 
-<AnimatedSection id="about" className="w-full py-20 bg-gray-800 relative">
-  <div className="max-w-6xl mx-auto px-4">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-white mb-4">
-        About <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Me</span>
-      </h2>
-      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
-    </div>
-
-    <div className="grid md:grid-cols-2 gap-12 items-center">
-      <AnimatedCard delay={200}>
-        <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-white mb-6 font-mono">Quality Assurance Professional</h3>
-          <p className="text-gray-300 mb-6 leading-relaxed font-light">
-            I am passionate about ensuring software quality and reliability. With expertise in manual
-            testing, API testing, and database testing, I specialize in delivering comprehensive QA
-            solutions for clients ranging from small businesses to large enterprise corporations.
-          </p>
-          <p className="text-gray-300 mb-6 leading-relaxed font-light">
-            My experience spans across various domains including financial applications, e-commerce
-            platforms, and customer support systems. I am committed to continuous learning and staying
-            updated with industry trends to improve QA processes.
-          </p>
-          <div className="grid grid-cols-2 gap-4 text-center">
-            <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-              <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-mono">2.5+</h4>
-              <p className="text-gray-300 font-light">Years Experience</p>
-            </div>
-            <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-              <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-mono">15+</h4>
-              <p className="text-gray-300 font-light">Projects Completed</p>
-            </div>
-          </div>
-        </div>
-      </AnimatedCard>
-
-      <AnimatedCard delay={400}>
-        <div className="space-y-6">
-          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-            <h4 className="text-xl font-bold text-cyan-400 mb-4 font-mono">Education</h4>
-            <p className="text-white font-semibold">BS Computer Science</p>
-            <p className="text-gray-300 font-light">Khawaja Fareed University of Engineering and IT</p>
-            <p className="text-gray-400 font-light">January 2017 - August 2021</p>
+      {/* About Section */}
+      <section id="about" className="w-full py-20 bg-gray-800 relative">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              About <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Me</span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
           </div>
 
-          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-            <h4 className="text-xl font-bold text-cyan-400 mb-4 font-mono">Location</h4>
-            <div className="flex items-center text-gray-300 font-light">
-              <FaMapMarkerAlt className="mr-2 text-cyan-400" />
-              <span>Model Town, Lahore, Pakistan</span>
-            </div>
-          </div>
-
-          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-            <h4 className="text-xl font-bold text-cyan-400 mb-4 font-mono">Availability</h4>
-            <p className="text-gray-300 font-light">Open to relocation opportunities worldwide</p>
-          </div>
-        </div>
-      </AnimatedCard>
-    </div>
-  </div>
-</AnimatedSection>
-
-<AnimatedSection id="skills" className="w-full py-20 bg-gray-900 relative">
-  <div className="max-w-6xl mx-auto px-4">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-white mb-4">
-        Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Skills</span>
-      </h2>
-      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
-    </div>
-
-    <div className="grid md:grid-cols-2 gap-8">
-      {skills.map((skill, index) => (
-        <AnimatedCard key={skill.name} delay={index * 100}>
-          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-white font-semibold">{skill.name}</h3>
-              <span className="text-cyan-400 text-sm font-mono bg-cyan-400/10 px-2 py-1 rounded">{skill.category}</span>
-            </div>
-            <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden skill-bar">
-              <div
-                className="bg-gradient-to-r from-cyan-400 to-blue-500 h-3 rounded-full transition-all duration-2000 ease-out"
-                style={{ 
-                  width: isVisible.skills ? `${skill.level}%` : '0%',
-                  transitionDelay: `${index * 100}ms`
-                }}
-              />
-            </div>
-            <div className="text-right mt-1">
-              <span className="text-gray-400 text-sm font-mono">{skill.level}%</span>
-            </div>
-          </div>
-        </AnimatedCard>
-      ))}
-    </div>
-  </div>
-</AnimatedSection>
-
-<AnimatedSection id="experience" className="w-full py-20 bg-gray-800 relative">
-  <div className="max-w-6xl mx-auto px-4">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-white mb-4">
-        Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Experience</span>
-      </h2>
-      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
-    </div>
-
-    <div className="space-y-8">
-      {experience.map((exp, index) => (
-        <AnimatedCard key={exp.title} delay={index * 200}>
-          <div className="glass-effect p-8 rounded-xl border-l-4 border-cyan-400 hover:glow-effect transition-all duration-300 transform hover:scale-105">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
-              <div>
-                <h3 className="text-2xl font-bold text-white font-mono">{exp.title}</h3>
-                <p className="text-cyan-400 text-lg font-semibold">{exp.company}</p>
-              </div>
-              <span className="text-gray-400 font-medium font-mono bg-gray-700/50 px-3 py-1 rounded-full mt-2 md:mt-0">{exp.period}</span>
-            </div>
-            <div className="space-y-3">
-              {exp.achievements.map((ach, achIndex) => (
-                <div key={achIndex} className="text-gray-300 flex items-start font-light hover:text-white transition-colors duration-200">
-                  <span className="text-cyan-400 mr-3 mt-1 text-sm">▶</span>
-                  <span>{ach}</span>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <AnimatedCard delay={200}>
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-white mb-6">Quality Assurance Professional</h3>
+                <p className="text-gray-300 mb-6 leading-relaxed">
+                  I am passionate about ensuring software quality and reliability. With expertise in manual
+                  testing, API testing, and database testing, I specialize in delivering comprehensive QA
+                  solutions for clients ranging from small businesses to large enterprise corporations.
+                </p>
+                <p className="text-gray-300 mb-6 leading-relaxed">
+                  My experience spans across various domains including financial applications, e-commerce
+                  platforms, and customer support systems. I am committed to continuous learning and staying
+                  updated with industry trends to improve QA processes.
+                </p>
+                <div className="grid grid-cols-2 gap-4 text-center">
+                  <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                    <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">2.5+</h4>
+                    <p className="text-gray-300">Years Experience</p>
+                  </div>
+                  <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                    <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">15+</h4>
+                    <p className="text-gray-300">Projects Completed</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </AnimatedCard>
-      ))}
-    </div>
-  </div>
-</AnimatedSection>
-
-<AnimatedSection id="projects" className="w-full py-20 bg-gray-900 relative">
-  <div className="max-w-6xl mx-auto px-4">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-white mb-4">
-        Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Projects</span>
-      </h2>
-      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
-    </div>
-
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {projects.map((project, index) => (
-        <AnimatedCard key={project.id} delay={index * 150}>
-          <div className="glass-effect rounded-xl overflow-hidden hover:glow-effect transition-all duration-300 transform hover:scale-105 group">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-white font-mono group-hover:text-cyan-400 transition-colors duration-300">{project.name}</h3>
-                <span className="text-xs bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-3 py-1 rounded-full font-mono">
-                  {project.type}
-                </span>
               </div>
-              <p className="text-gray-300 mb-4 font-light">{project.desc}</p>
-              <p className="text-gray-400 text-sm mb-4 font-light">{project.details}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech, techIndex) => (
-                  <span 
-                    key={tech} 
-                    className="text-xs bg-gray-700/50 text-cyan-400 px-2 py-1 rounded-full font-mono hover:bg-cyan-400/10 transition-colors duration-200"
-                    style={{ animationDelay: `${techIndex * 100}ms` }}
-                  >
-                    {tech}
-                  </span>
-                ))}
+            </AnimatedCard>
+
+            <AnimatedCard delay={400}>
+              <div className="space-y-6">
+                <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                  <h4 className="text-xl font-bold text-cyan-400 mb-4">Education</h4>
+                  <p className="text-white font-semibold">BS Computer Science</p>
+                  <p className="text-gray-300">Khawaja Fareed University of Engineering and IT</p>
+                  <p className="text-gray-400">January 2017 - August 2021</p>
+                </div>
+
+                <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                  <h4 className="text-xl font-bold text-cyan-400 mb-4">Location</h4>
+                  <div className="flex items-center text-gray-300">
+                    <FaMapMarkerAlt className="mr-2 text-cyan-400" />
+                    <span>Model Town, Lahore, Pakistan</span>
+                  </div>
+                </div>
+
+                <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                  <h4 className="text-xl font-bold text-cyan-400 mb-4">Availability</h4>
+                  <p className="text-gray-300">Open to relocation opportunities worldwide</p>
+                </div>
               </div>
-              <div className="h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-            </div>
+            </AnimatedCard>
           </div>
-        </AnimatedCard>
-      ))}
-    </div>
-  </div>
-</AnimatedSection>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="w-full py-20 bg-gray-900 relative">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Skills</span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {skills.map((skill, index) => (
+              <AnimatedCard key={skill.name} delay={index * 100}>
+                <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-white font-semibold">{skill.name}</h3>
+                    <span className="text-cyan-400 text-sm bg-cyan-400/10 px-2 py-1 rounded">{skill.category}</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden skill-bar">
+                    <div
+                      className="bg-gradient-to-r from-cyan-400 to-blue-500 h-3 rounded-full transition-all duration-2000 ease-out"
+                      style={{ 
+                        width: `${skill.level}%`,
+                        transitionDelay: `${index * 100}ms`
+                      }}
+                    />
+                  </div>
+                  <div className="text-right mt-1">
+                    <span className="text-gray-400 text-sm">{skill.level}%</span>
+                  </div>
+                </div>
+              </AnimatedCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="w-full py-20 bg-gray-800 relative">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Experience</span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+          </div>
+
+          <div className="space-y-8">
+            {experience.map((exp, index) => (
+              <AnimatedCard key={exp.title} delay={index * 200}>
+                <div className="glass-effect p-8 rounded-xl border-l-4 border-cyan-400 hover:glow-effect transition-all duration-300 transform hover:scale-105">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">{exp.title}</h3>
+                      <p className="text-cyan-400 text-lg font-semibold">{exp.company}</p>
+                    </div>
+                    <span className="text-gray-400 font-medium bg-gray-700/50 px-3 py-1 rounded-full mt-2 md:mt-0">{exp.period}</span>
+                  </div>
+                  <div className="space-y-3">
+                    {exp.achievements.map((ach, achIndex) => (
+                      <div key={achIndex} className="text-gray-300 flex items-start hover:text-white transition-colors duration-200">
+                        <span className="text-cyan-400 mr-3 mt-1 text-sm">▶</span>
+                        <span>{ach}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </AnimatedCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="w-full py-20 bg-gray-900 relative">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Projects</span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <AnimatedCard key={project.id} delay={index * 150}>
+                <div className="glass-effect rounded-xl overflow-hidden hover:glow-effect transition-all duration-300 transform hover:scale-105 group">
+                  <div className="p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">{project.name}</h3>
+                      <span className="text-xs bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-3 py-1 rounded-full">
+                        {project.type}
+                      </span>
+                    </div>
+                    <p className="text-gray-300 mb-4">{project.desc}</p>
+                    <p className="text-gray-400 text-sm mb-4">{project.details}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.technologies.map((tech, techIndex) => (
+                        <span 
+                          key={tech} 
+                          className="text-xs bg-gray-700/50 text-cyan-400 px-2 py-1 rounded-full hover:bg-cyan-400/10 transition-colors duration-200"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                  </div>
+                </div>
+              </AnimatedCard>
+            ))}
+          </div>
+        </div>
+      </section>
       {/* ---------------- Contact ---------------- */}
       <section id="contact" className="w-full py-20 bg-gray-800">
         <div className="max-w-4xl mx-auto px-4">
