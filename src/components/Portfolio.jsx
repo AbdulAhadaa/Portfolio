@@ -65,7 +65,7 @@ const Portfolio = () => {
     { name: 'Selenium', category: 'Automation', level: 75 },
     { name: 'JIRA', category: 'Tools', level: 95 },
     { name: 'Postman', category: 'Tools', level: 90 },
-    { name: 'Python', category: 'Programming', level: 70 },
+    { name: 'Python', category: 'Programming', level: 85 },
     { name: 'SQL/MySQL', category: 'Database', level: 85 },
   ];
 
