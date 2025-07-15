@@ -1,5 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
+import { FaSpinner, FaCheck } from 'react-icons/fa';
+
 import {
   FaBars,
   FaTimes,
@@ -10,12 +12,25 @@ import {
   FaMapMarkerAlt,
   FaExternalLinkAlt,
   FaDownload,
+  FaCopy,
+  FaWhatsapp,
+  FaBriefcase,
+  FaClock,
+  FaGlobe,FaCode,FaUserTie,FaCalendarAlt,FaCheckCircle
 } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 
 const Portfolio = () => {
   const [nav, setNav] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  message: ''
+});
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [copiedText, setCopiedText] = useState('');
+const [submitStatus, setSubmitStatus] = useState('');
   const [isVisible, setIsVisible] = useState({
     about: false,
     skills: false,
@@ -57,6 +72,70 @@ const Portfolio = () => {
       setNav(false);
     }
   };
+  const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
+const copyToClipboard = (text, type) => {
+  navigator.clipboard.writeText(text);
+  setCopiedText(type);
+  setTimeout(() => setCopiedText(''), 2000);
+};
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!formData.name || !formData.email || !formData.message) {
+    setSubmitStatus('error');
+    setTimeout(() => setSubmitStatus(''), 3000);
+    return;
+  }
+
+  setIsSubmitting(true);
+  setSubmitStatus('');
+
+  try {
+    // Using EmailJS service
+    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        service_id: 'service_portfolio', // You'll need to replace with your EmailJS service ID
+        template_id: 'template_portfolio', // You'll need to replace with your EmailJS template ID
+        user_id: 'your_emailjs_user_id', // You'll need to replace with your EmailJS user ID
+        template_params: {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: 'umersoft07@gmail.com'
+        }
+      })
+    });
+
+    if (response.ok) {
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } else {
+      throw new Error('Failed to send email');
+    }
+  } catch (error) {
+    console.error('Error sending email:', error);
+    // Fallback to mailto if EmailJS fails
+    const subject = `Portfolio Contact from ${formData.name}`;
+    const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
+    window.location.href = `mailto:umersoft07@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setSubmitStatus('success');
+    setFormData({ name: '', email: '', message: '' });
+  } finally {
+    setIsSubmitting(false);
+    setTimeout(() => setSubmitStatus(''), 5000);
+  }
+};
+
 
   const skills = [
     { name: 'Manual Testing', category: 'Testing', level: 90 },
@@ -553,85 +632,360 @@ const Portfolio = () => {
         </div>
       </section>
       {/* ---------------- Contact ---------------- */}
-      <section id="contact" className="w-full py-20 bg-gray-800">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Get In <span className="text-cyan-400">Touch</span>
-            </h2>
-            <div className="w-24 h-1 bg-cyan-400 mx-auto" />
+ {/* Contact Section */}
+{/* Contact Section */}
+<section id="contact" className="w-full py-20 bg-gray-800 relative overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-blue-600/5"></div>
+  <div className="max-w-7xl mx-auto px-4 relative z-10">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-white mb-4">
+        Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Connect</span>
+      </h2>
+      <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+      <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+        Ready to collaborate on your next QA project? I'm available for freelance work, 
+        consulting, or full-time opportunities. Let's discuss how I can help ensure your software quality.
+      </p>
+    </div>
+
+    <div className="grid lg:grid-cols-3 gap-8 mb-16">
+      {/* Direct Contact Information */}
+      <div className="space-y-6">
+        <AnimatedCard delay={100}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <div className="bg-gradient-to-r from-cyan-400 to-blue-500 p-3 rounded-lg mr-4">
+                  <FaEnvelope className="text-white text-xl" />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold">Email</h3>
+                  <p className="text-gray-400 text-sm">Professional correspondence</p>
+                </div>
+              </div>
+              <button
+                onClick={() => copyToClipboard('umersoft07@gmail.com', 'email')}
+                className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+              >
+                {copiedText === 'email' ? <FaCheckCircle className="text-green-400" /> : <FaCopy />}
+              </button>
+            </div>
+            <p className="text-gray-300 mb-4">umersoft07@gmail.com</p>
+            <div className="flex space-x-2">
+              <a 
+                href="mailto:umersoft07@gmail.com?subject=QA Collaboration Opportunity&body=Hi Umer,%0D%0A%0D%0AI'm interested in discussing a QA project opportunity. Could we schedule a call to discuss further?%0D%0A%0D%0ABest regards"
+                className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
+              >
+                <FaEnvelope className="mr-2" />
+                Compose Email
+              </a>
+            </div>
           </div>
+        </AnimatedCard>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Let's Connect</h3>
-              <p className="text-gray-300 mb-8">
-                I'm always interested in new opportunities and collaborations. Feel free to reach out if you'd like
-                to discuss QA projects or opportunities.
-              </p>
-
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <FaEnvelope className="text-cyan-400 mr-4" />
-                  <span className="text-gray-300">umersoft07@gmail.com</span>
+        <AnimatedCard delay={200}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <div className="bg-gradient-to-r from-green-400 to-green-600 p-3 rounded-lg mr-4">
+                  <FaWhatsapp className="text-white text-xl" />
                 </div>
-                <div className="flex items-center">
-                  <FaPhone className="text-cyan-400 mr-4" />
-                  <span className="text-gray-300">+92 333 274 1803</span>
-                </div>
-                <div className="flex items-center">
-                  <FaMapMarkerAlt className="text-cyan-400 mr-4" />
-                  <span className="text-gray-300">Model Town, Lahore, Pakistan</span>
+                <div>
+                  <h3 className="text-white font-semibold">WhatsApp</h3>
+                  <p className="text-gray-400 text-sm">Instant messaging</p>
                 </div>
               </div>
+              <button
+                onClick={() => copyToClipboard('+92 333 274 1803', 'whatsapp')}
+                className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+              >
+                {copiedText === 'whatsapp' ? <FaCheckCircle className="text-green-400" /> : <FaCopy />}
+              </button>
+            </div>
+            <p className="text-gray-300 mb-4">+92 333 274 1803</p>
+            <div className="flex space-x-2">
+              <a 
+                href="https://wa.me/923332741803?text=Hi Umer, I'm interested in discussing a QA project opportunity. When would be a good time to talk?"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
+              >
+                <FaWhatsapp className="mr-2" />
+                Message
+              </a>
+              <a 
+                href="tel:+923332741803"
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
+              >
+                <FaPhone className="mr-2" />
+                Call
+              </a>
+            </div>
+          </div>
+        </AnimatedCard>
 
-              <div className="flex space-x-4 mt-8">
-                <a
-                  href="https://www.linkedin.com/in/umer-owais"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-colors duration-300"
-                >
-                  <FaLinkedin size={20} />
-                </a>
-                <a
-                  href="mailto:umersoft07@gmail.com"
-                  className="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-lg transition-colors duration-300"
-                >
-                  <FaEnvelope size={20} />
-                </a>
+        <AnimatedCard delay={300}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <div className="bg-gradient-to-r from-blue-400 to-blue-600 p-3 rounded-lg mr-4">
+                  <FaLinkedin className="text-white text-xl" />
+                </div>
+                <div>
+                  <h3 className="text-white font-semibold">LinkedIn</h3>
+                  <p className="text-gray-400 text-sm">Professional network</p>
+                </div>
+              </div>
+              <button
+                onClick={() => copyToClipboard('linkedin.com/in/umer-owais', 'linkedin')}
+                className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+              >
+                {copiedText === 'linkedin' ? <FaCheckCircle className="text-green-400" /> : <FaCopy />}
+              </button>
+            </div>
+            <p className="text-gray-300 mb-4">linkedin.com/in/umer-owais</p>
+            <div className="flex space-x-2">
+              <a 
+                href="https://www.linkedin.com/in/umer-owais"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
+              >
+                <FaLinkedin className="mr-2" />
+                Connect
+              </a>
+            </div>
+          </div>
+        </AnimatedCard>
+      </div>
+
+      {/* Business Information & Availability */}
+      <div className="space-y-6">
+        <AnimatedCard delay={400}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-purple-400 to-purple-600 p-3 rounded-lg mr-4">
+                <FaBriefcase className="text-white text-xl" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">Business Hours</h3>
+                <p className="text-gray-400 text-sm">When I'm available</p>
               </div>
             </div>
-
-            <div className="bg-gray-900 p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="w-full bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-400 focus:outline-none"
-                />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-400 focus:outline-none"
-                />
-                <textarea
-                  rows="6"
-                  placeholder="Your Message"
-                  className="w-full bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-400 focus:outline-none resize-none"
-                />
-                <button
-                  onClick={() => (window.location.href = 'mailto:umersoft07@gmail.com')}
-                  className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg transition-colors duration-300"
-                >
-                  Send Message
-                </button>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">Monday - Friday</span>
+                <span className="text-gray-300">9:00 AM - 6:00 PM</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">Saturday</span>
+                <span className="text-gray-300">10:00 AM - 4:00 PM</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">Sunday</span>
+                <span className="text-gray-300">By appointment</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-700 pt-3">
+                <span className="text-gray-300">Timezone</span>
+                <span className="text-gray-300">PKT (UTC+5)</span>
               </div>
             </div>
+          </div>
+        </AnimatedCard>
+
+        <AnimatedCard delay={500}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-orange-400 to-orange-600 p-3 rounded-lg mr-4">
+                <FaClock className="text-white text-xl" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">Response Time</h3>
+                <p className="text-gray-400 text-sm">Communication commitment</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">Email</span>
+                <span className="text-gray-300">Within 24 hours</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">WhatsApp</span>
+                <span className="text-gray-300">Within 2 hours</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-300">LinkedIn</span>
+                <span className="text-gray-300">Within 48 hours</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-700 pt-3">
+                <span className="text-gray-300">Current Status</span>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                  <span className="text-green-400 text-sm">Available</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimatedCard>
+
+        <AnimatedCard delay={600}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-pink-400 to-pink-600 p-3 rounded-lg mr-4">
+                <FaMapMarkerAlt className="text-white text-xl" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">Location & Remote Work</h3>
+                <p className="text-gray-400 text-sm">Based in Pakistan</p>
+              </div>
+            </div>
+            <p className="text-gray-300 mb-2">Model Town, Lahore, Pakistan</p>
+            <p className="text-gray-400 text-sm mb-4">Open to remote work & relocation opportunities worldwide</p>
+            <div className="flex items-center text-sm text-gray-300">
+              <FaGlobe className="mr-2 text-cyan-400" />
+              <span>Available for global remote collaboration</span>
+            </div>
+          </div>
+        </AnimatedCard>
+      </div>
+
+      {/* Services & Engagement Options */}
+      <div className="space-y-6">
+        <AnimatedCard delay={700}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-cyan-400 to-blue-500 p-3 rounded-lg mr-4">
+                <FaCode className="text-white text-xl" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">QA Services</h3>
+                <p className="text-gray-400 text-sm">What I specialize in</p>
+              </div>
+            </div>
+            <ul className="space-y-2 text-gray-300 text-sm">
+              <li className="flex items-center">
+                <span className="text-cyan-400 mr-2">✓</span>
+                Manual Testing & Test Case Design
+              </li>
+              <li className="flex items-center">
+                <span className="text-cyan-400 mr-2">✓</span>
+                API Testing & Integration Testing
+              </li>
+              <li className="flex items-center">
+                <span className="text-cyan-400 mr-2">✓</span>
+                Database Testing & Validation
+              </li>
+              <li className="flex items-center">
+                <span className="text-cyan-400 mr-2">✓</span>
+                Mobile App Testing
+              </li>
+              <li className="flex items-center">
+                <span className="text-cyan-400 mr-2">✓</span>
+                Regression & UAT Testing
+              </li>
+            </ul>
+          </div>
+        </AnimatedCard>
+
+        <AnimatedCard delay={800}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-emerald-400 to-emerald-600 p-3 rounded-lg mr-4">
+                <FaUserTie className="text-white text-xl" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">Engagement Types</h3>
+                <p className="text-gray-400 text-sm">How we can work together</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                <span className="text-gray-300">Full-time Position</span>
+                <span className="text-green-400 text-sm">Available</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                <span className="text-gray-300">Contract/Freelance</span>
+                <span className="text-green-400 text-sm">Available</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                <span className="text-gray-300">Consulting</span>
+                <span className="text-green-400 text-sm">Available</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+                <span className="text-gray-300">Part-time</span>
+                <span className="text-green-400 text-sm">Available</span>
+              </div>
+            </div>
+          </div>
+        </AnimatedCard>
+
+        <AnimatedCard delay={900}>
+          <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300">
+            <div className="flex items-center mb-4">
+              <div className="bg-gradient-to-r from-indigo-400 to-indigo-600 p-3 rounded-lg mr-4">
+                <FaCalendarAlt className="text-white text-xl" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">Quick Response</h3>
+                <p className="text-gray-400 text-sm">Get in touch instantly</p>
+              </div>
+            </div>
+            <p className="text-gray-300 mb-4 text-sm">Need immediate assistance or have a quick question? I'm just a message away!</p>
+            <div className="grid grid-cols-2 gap-2">
+              <a 
+                href="https://wa.me/923332741803?text=Hi Umer, I have a quick question about QA services."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs transition-colors duration-300 flex items-center justify-center"
+              >
+                <FaWhatsapp className="mr-1" />
+                Quick Chat
+              </a>
+              <a 
+                href="mailto:umersoft07@gmail.com?subject=Quick Question&body=Hi Umer, I have a quick question about your QA services."
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs transition-colors duration-300 flex items-center justify-center"
+              >
+                <FaEnvelope className="mr-1" />
+                Quick Email
+              </a>
+            </div>
+          </div>
+        </AnimatedCard>
+      </div>
+    </div>
+
+    {/* Call to Action */}
+    <div className="text-center">
+      <AnimatedCard delay={1000}>
+        <div className="glass-effect p-8 rounded-xl max-w-4xl mx-auto">
+          <h3 className="text-2xl font-bold text-white mb-4">Ready to Start Your Next QA Project?</h3>
+          <p className="text-gray-400 mb-6">
+            Let's discuss how I can help ensure your software meets the highest quality standards. 
+            I'm committed to delivering thorough testing solutions that give you confidence in your product.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a 
+              href="mailto:umersoft07@gmail.com?subject=Project Discussion&body=Hi Umer,%0D%0A%0D%0AI'd like to discuss a QA project opportunity. Here are the details:%0D%0A%0D%0AProject Type:%0D%0ATesting Requirements:%0D%0ATimetable:%0D%0ABudget Range:%0D%0A%0D%0APlease let me know when you're available for a call.%0D%0A%0D%0ABest regards"
+              className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center"
+            >
+              <FaEnvelope className="mr-2" />
+              Start Project Discussion
+            </a>
+            <a 
+              href="https://wa.me/923332741803?text=Hi Umer, I'm interested in your QA services. Can we schedule a call to discuss my project requirements?"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center"
+            >
+              <FaWhatsapp className="mr-2" />
+              Schedule Call
+            </a>
           </div>
         </div>
-      </section>
+      </AnimatedCard>
+    </div>
+  </div>
+</section>
 
       {/* ---------------- Footer ---------------- */}
       <footer className="bg-gray-900 py-8 border-t border-gray-800">
