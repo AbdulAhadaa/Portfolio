@@ -671,13 +671,15 @@ const handleSubmit = async (e) => {
             </div>
             <p className="text-gray-300 mb-4">umersoft07@gmail.com</p>
             <div className="flex space-x-2">
-              <a 
-                href="mailto:umersoft07@gmail.com?subject=QA Collaboration Opportunity&body=Hi Umer,%0D%0A%0D%0AI'm interested in discussing a QA project opportunity. Could we schedule a call to discuss further?%0D%0A%0D%0ABest regards"
-                className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
-              >
-                <FaEnvelope className="mr-2" />
-                Compose Email
-              </a>
+            <a 
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=umersoft07@gmail.com&su=QA%20Collaboration%20Opportunity&body=Hi%20Umer,%0D%0A%0D%0AI'm%20interested%20in%20discussing%20a%20QA%20project%20opportunity.%20Could%20we%20schedule%20a%20call%20to%20discuss%20further?%0D%0A%0D%0ABest%20regards"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
+>
+  <FaEnvelope className="mr-2" />
+  Compose Email
+</a>
             </div>
           </div>
         </AnimatedCard>
@@ -810,11 +812,11 @@ const handleSubmit = async (e) => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-300">WhatsApp</span>
-                <span className="text-gray-300">Within 2 hours</span>
+                <span className="text-gray-300">Within 24 hours</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-300">LinkedIn</span>
-                <span className="text-gray-300">Within 48 hours</span>
+                <span className="text-gray-300">Within 24 hours</span>
               </div>
               <div className="flex items-center justify-between border-t border-gray-700 pt-3">
                 <span className="text-gray-300">Current Status</span>
@@ -940,13 +942,15 @@ const handleSubmit = async (e) => {
                 <FaWhatsapp className="mr-1" />
                 Quick Chat
               </a>
-              <a 
-                href="mailto:umersoft07@gmail.com?subject=Quick%20Question&body=Hi%20Umer,%20I%20have%20a%20quick%20question%20about%20your%20QA%20services."
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs transition-colors duration-300 flex items-center justify-center"
-              >
-                <FaEnvelope className="mr-1" />
-                Quick Email
-              </a>
+            <a 
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=umersoft07@gmail.com&su=Quick%20Question&body=Hi%20Umer,%20I%20have%20a%20quick%20question%20about%20your%20QA%20services."
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs transition-colors duration-300 flex items-center justify-center"
+>
+  <FaEnvelope className="mr-1" />
+  Quick Email
+</a>
             </div>
           </div>
         </AnimatedCard>
@@ -954,7 +958,7 @@ const handleSubmit = async (e) => {
     </div>
 
     {/* Call to Action */}
-    <div className="text-center">
+    {/* <div className="text-center">
       <AnimatedCard delay={1000}>
         <div className="glass-effect p-8 rounded-xl max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold text-white mb-4">Ready to Start Your Next QA Project?</h3>
@@ -982,7 +986,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </AnimatedCard>
-    </div>
+    </div> */}
   </div>
 </section>
 
