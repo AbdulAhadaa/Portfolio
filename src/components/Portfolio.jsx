@@ -483,7 +483,7 @@ const handleSubmit = async (e) => {
                     <p className="text-gray-300">Years Experience</p>
                   </div>
                   <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 transform hover:scale-105">
-                    <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">15+</h4>
+                    <h4 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">10+</h4>
                     <p className="text-gray-300">Projects Completed</p>
                   </div>
                 </div>
