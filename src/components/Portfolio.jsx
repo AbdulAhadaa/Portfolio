@@ -633,7 +633,6 @@ const handleSubmit = async (e) => {
       </section>
       {/* ---------------- Contact ---------------- */}
  {/* Contact Section */}
-{/* Contact Section */}
 <section id="contact" className="w-full py-20 bg-gray-800 relative overflow-hidden">
   <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-blue-600/5"></div>
   <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -651,7 +650,7 @@ const handleSubmit = async (e) => {
     <div className="grid lg:grid-cols-3 gap-8 mb-16">
       {/* Direct Contact Information */}
       <div className="space-y-6">
-        <AnimatedCard delay={100}>
+       <AnimatedCard delay={100}>
           <div className="glass-effect p-6 rounded-xl hover:glow-effect transition-all duration-300 group">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
@@ -705,7 +704,7 @@ const handleSubmit = async (e) => {
             <p className="text-gray-300 mb-4">+92 333 274 1803</p>
             <div className="flex space-x-2">
               <a 
-                href="https://wa.me/923332741803?text=Hi Umer, I'm interested in discussing a QA project opportunity. When would be a good time to talk?"
+                href="https://wa.me/923332741803?text=Hi%20Umer,%20I'm%20interested%20in%20discussing%20a%20QA%20project%20opportunity.%20When%20would%20be%20a%20good%20time%20to%20talk?"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
@@ -737,7 +736,7 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
               <button
-                onClick={() => copyToClipboard('linkedin.com/in/umer-owais', 'linkedin')}
+                onClick={() => copyToClipboard('https://www.linkedin.com/in/umer-owais-126231211/', 'linkedin')}
                 className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
               >
                 {copiedText === 'linkedin' ? <FaCheckCircle className="text-green-400" /> : <FaCopy />}
@@ -746,7 +745,7 @@ const handleSubmit = async (e) => {
             <p className="text-gray-300 mb-4">linkedin.com/in/umer-owais</p>
             <div className="flex space-x-2">
               <a 
-                href="https://www.linkedin.com/in/umer-owais"
+                href="https://www.linkedin.com/in/umer-owais-126231211/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300 flex items-center"
@@ -933,7 +932,7 @@ const handleSubmit = async (e) => {
             <p className="text-gray-300 mb-4 text-sm">Need immediate assistance or have a quick question? I'm just a message away!</p>
             <div className="grid grid-cols-2 gap-2">
               <a 
-                href="https://wa.me/923332741803?text=Hi Umer, I have a quick question about QA services."
+                href="https://wa.me/923332741803?text=Hi%20Umer,%20I%20have%20a%20quick%20question%20about%20QA%20services."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs transition-colors duration-300 flex items-center justify-center"
@@ -942,7 +941,7 @@ const handleSubmit = async (e) => {
                 Quick Chat
               </a>
               <a 
-                href="mailto:umersoft07@gmail.com?subject=Quick Question&body=Hi Umer, I have a quick question about your QA services."
+                href="mailto:umersoft07@gmail.com?subject=Quick%20Question&body=Hi%20Umer,%20I%20have%20a%20quick%20question%20about%20your%20QA%20services."
                 className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs transition-colors duration-300 flex items-center justify-center"
               >
                 <FaEnvelope className="mr-1" />
@@ -965,14 +964,14 @@ const handleSubmit = async (e) => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a 
-              href="mailto:umersoft07@gmail.com?subject=Project Discussion&body=Hi Umer,%0D%0A%0D%0AI'd like to discuss a QA project opportunity. Here are the details:%0D%0A%0D%0AProject Type:%0D%0ATesting Requirements:%0D%0ATimetable:%0D%0ABudget Range:%0D%0A%0D%0APlease let me know when you're available for a call.%0D%0A%0D%0ABest regards"
+              href="mailto:umersoft07@gmail.com?subject=Project%20Discussion&body=Hi%20Umer,%0D%0A%0D%0AI'd%20like%20to%20discuss%20a%20QA%20project%20opportunity.%20Here%20are%20the%20details:%0D%0A%0D%0AProject%20Type:%0D%0ATesting%20Requirements:%0D%0ATimetable:%0D%0ABudget%20Range:%0D%0A%0D%0APlease%20let%20me%20know%20when%20you're%20available%20for%20a%20call.%0D%0A%0D%0ABest%20regards"
               className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center"
             >
               <FaEnvelope className="mr-2" />
               Start Project Discussion
             </a>
             <a 
-              href="https://wa.me/923332741803?text=Hi Umer, I'm interested in your QA services. Can we schedule a call to discuss my project requirements?"
+              href="https://wa.me/923332741803?text=Hi%20Umer,%20I'm%20interested%20in%20your%20QA%20services.%20Can%20we%20schedule%20a%20call%20to%20discuss%20my%20project%20requirements?"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center"
