@@ -421,7 +421,7 @@ const handleSubmit = async (e) => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-8 text-center relative z-10">
+        <div className="max-w-4xl mx-auto px-8 mt-[100px] text-center relative z-10">
           <p className="text-cyan-400 text-xl mb-4 animate-float">Hi, my name is</p>
           <h1 className="text-5xl md:text-7xl font-black text-white mb-4 animate-text-shimmer bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
             Muhammad Umer Owais
